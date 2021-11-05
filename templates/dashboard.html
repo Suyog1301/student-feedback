@@ -19,9 +19,10 @@
         <div class="container dashboard-card tertiary">
             <p>overall sentiment</p>
             <h1>
-                {% if faculty_overall_sentiment > 0 %}
+                {% if faculty_overall_sentiment > 0.5 %}
                 positive
-                {% elif faculty_overall_sentiment < 0 %} negative {% elif faculty_overall_sentiment==0 %} neutral {%
+                {% elif faculty_overall_sentiment < -0.5 %} negative {% elif faculty_overall_sentiment < 0.5 and
+                    faculty_overall_sentiment> -0.5 %} neutral {%
                     endif %} </h1>
         </div>
     </div>
@@ -79,9 +80,10 @@
         <div class="container dashboard-card secondary">
             <p>overall sentiment</p>
             <h1>
-                {% if faculty_overall_sentiment > 0 %}
+                {% if faculty_overall_sentiment > 0.5 %}
                 positive
-                {% elif faculty_overall_sentiment < 0 %} negative {% elif faculty_overall_sentiment==0 %} neutral {%
+                {% elif faculty_overall_sentiment < -0.5 %} negative {% elif faculty_overall_sentiment < 0.5 and
+                    faculty_overall_sentiment> -0.5 %} neutral {%
                     endif %} </h1>
         </div>
     </div>

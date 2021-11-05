@@ -1,13 +1,16 @@
-from flask import Flask, redirect, render_template, url_for, flash, request
-from flask_sqlalchemy import SQLAlchemy
+from models import Faculty, Feedback, Student, User
+from forms import (FacultyForm, FeedbackForm, LoginForm, RegisterForm,
+                   SelectionForm, StudentForm)
+import os
+import secrets
+from flask import Flask, flash, redirect, render_template, request, url_for
+from flask_login import LoginManager, current_user, login_required, login_user
 from flask_login.utils import logout_user
 from flask_migrate import Migrate
-from flask_login import LoginManager, login_required, current_user, login_user
-import secrets
-import os
-
+from flask_sqlalchemy import SQLAlchemy
 
 # initialization
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
@@ -26,16 +29,6 @@ login_manager.login_view = "auth"
 # flask-migrate
 migrate = Migrate()
 migrate.init_app(app, db)
-
-from models import User, Feedback, Faculty, Student
-from forms import (
-    FacultyForm,
-    LoginForm,
-    RegisterForm,
-    SelectionForm,
-    FeedbackForm,
-    StudentForm,
-)
 
 
 @login_manager.user_loader
@@ -193,7 +186,8 @@ def dashboard():
         for feed in feeds:
             faculty_sentiment += feed.sentiment
         if len(faculties) > 0:
-            faculty_overall_sentiment = faculty_sentiment / len(faculties)
+            faculty_overall_sentiment = faculty_sentiment / feedback_count
+        print(faculty_overall_sentiment)
         return render_template(
             "dashboard.html",
             current_user=current_user,
@@ -204,8 +198,10 @@ def dashboard():
         )
     elif current_user.role == 1:
         faculty = Faculty.query.filter_by(user_id=current_user.id).first()
-        faculty_feedbacks = Feedback.query.filter_by(faculty_id=faculty.id).all()
+        faculty_feedbacks = Feedback.query.filter_by(
+            faculty_id=faculty.id).all()
         faculty_feedbacks_count = len(faculty_feedbacks)
+        faculty_overall_sentiment = float()
         faculty_sentiment = 0
         for feedback in faculty_feedbacks:
             faculty_sentiment += feedback.sentiment
@@ -213,7 +209,9 @@ def dashboard():
         if faculty_feedbacks_count == 0:
             faculty_overall_sentiment = 0
         else:
-            faculty_overall_sentiment = (faculty_sentiment) / (faculty_feedbacks_count)
+            faculty_overall_sentiment = (
+                faculty_sentiment) / (faculty_feedbacks_count)
+        print(faculty_overall_sentiment)
         return render_template(
             "dashboard.html",
             current_user=current_user,
@@ -236,9 +234,7 @@ def dashboard():
 @app.route("/feedback/<sem>", methods=["POST", "GET"])
 @login_required
 def feedback(sem):
-    # sem = request.args.get("sem")
-    # branch = request.args.get("branch")
-    # Dummy Data of Teachers later gonna replaced
+
     form = SelectionForm()
 
     if form.validate_on_submit():
@@ -249,13 +245,7 @@ def feedback(sem):
 
     student = Student.query.filter_by(user_id=current_user.id).first()
     faculties = Faculty.query.filter_by(semester=sem, branch=student.branch)
-    # data = [
-    #     {"teacher": "John", "Sem": "SEM V", "Subject": "Maths"},
-    #     {"teacher": "Sahil", "Sem": "SEM IV", "Subject": "Algorithms"},
-    #     {"teacher": "Ranjita", "Sem": "SEM VI", "Subject": "AI"},
-    #     {"teacher": "Rupali", "Sem": "SEM III", "Subject": "Data Structures"},
-    # ]
-    # filterdata = [d for d in data if d["Sem"] in sem]
+
     return render_template("Feedbackpg.html", faculties=faculties, form=form)
 
 
