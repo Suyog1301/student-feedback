@@ -202,23 +202,23 @@ def dashboard():
         faculty_feedbacks = Feedback.query.filter_by(
             faculty_id=faculty.id).all()
         faculty_feedbacks_count = len(faculty_feedbacks)
-        faculty_overall_sentiment = float()
-        faculty_sentiment = 0
-        for feedback in faculty_feedbacks:
-            faculty_sentiment += feedback.sentiment
+#         faculty_overall_sentiment = float()
+#         faculty_sentiment = 0
+#         for feedback in faculty_feedbacks:
+#             faculty_sentiment += feedback.sentiment
 
-        if faculty_feedbacks_count == 0:
-            faculty_overall_sentiment = 0
-        else:
-            faculty_overall_sentiment = (
-                faculty_sentiment) / (faculty_feedbacks_count)
-        print(faculty_overall_sentiment)
+#         if faculty_feedbacks_count == 0:
+#             faculty_overall_sentiment = 0
+#         else:
+#             faculty_overall_sentiment = (
+#                 faculty_sentiment) / (faculty_feedbacks_count)
+#         print(faculty_overall_sentiment)
         return render_template(
             "dashboard.html",
             current_user=current_user,
             faculty_feedbacks=faculty_feedbacks,
             faculty_feedbacks_count=faculty_feedbacks_count,
-            faculty_overall_sentiment=faculty_overall_sentiment,
+            faculty_overall_sentiment=faculty.sentiment,
         )
     elif current_user.role == 2:
         selectform = SelectionForm()
