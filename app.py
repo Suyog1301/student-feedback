@@ -1,13 +1,10 @@
-from models import Faculty, Feedback, Student, User
-from forms import (FacultyForm, FeedbackForm, LoginForm, RegisterForm,
-                   SelectionForm, StudentForm)
-import os
-import secrets
 from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_login import LoginManager, current_user, login_required, login_user
 from flask_login.utils import logout_user
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+import os
+import secrets
 
 # initialization
 
@@ -29,6 +26,10 @@ login_manager.login_view = "auth"
 # flask-migrate
 migrate = Migrate()
 migrate.init_app(app, db)
+
+from models import Faculty, Feedback, Student, User
+from forms import (FacultyForm, FeedbackForm, LoginForm, RegisterForm,
+                   SelectionForm, StudentForm)
 
 
 @login_manager.user_loader
