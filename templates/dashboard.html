@@ -93,10 +93,10 @@
     <h3>Feedbacks</h3>
     {% for feedback in faculty_feedbacks %}
     <div class="feedback">
-        {% if feedback.sentiment < 0 %} <p class="sentiment" style="color: red; font-weight: bold;">negative</p>
-            {% elif feedback.sentiment > 0 %}
+        {% if feedback.sentiment < -0.5 %} <p class="sentiment" style="color: red; font-weight: bold;">negative</p>
+            {% elif feedback.sentiment > 0.5 %}
             <p class="sentiment" style="color: green; font-weight: bold;">positive</p>
-            {% elif feedback.sentiment == 0%}
+            {% elif feedback.sentiment < 0.5 and feedback.sentiment > -0.5 %}
             <p class="sentiment" style="color: yellow; font-weight: bold;">neutral</p>
             {% endif %}
             <br>
