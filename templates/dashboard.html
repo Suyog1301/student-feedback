@@ -130,9 +130,9 @@
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
             ['Sentiment', 'Score'],
-            ['Neutral', '{{neutral}}'],
-            ['Positive', '{{pos}}'],
-            ['Negative', '{{neg}}'],
+            ['Neutral', '{{(neutral/feedback_count) * 100}}'],
+            ['Positive', '{{(pos/feedback_count)*100}}'],
+            ['Negative', '{{(neg/feedback_count) * 100}}'],
         ]);
 
         // Optional; add a title and set the width and height of the chart
