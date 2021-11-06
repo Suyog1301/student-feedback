@@ -224,6 +224,13 @@ def dashboard():
         )
     elif current_user.role == 1:
         faculty = Faculty.query.filter_by(user_id=current_user.id).first()
+
+        faculty_overall_sentiment = 0
+        if faculty.sentiment is None:
+            faculty_overall_sentiment = 0
+        else:
+            faculty_overall_sentiment = faculty.sentiment
+
         faculty_feedbacks = Feedback.query.filter_by(faculty_id=faculty.id).all()
         faculty_feedbacks_count = len(faculty_feedbacks)
 
@@ -255,7 +262,7 @@ def dashboard():
             current_user=current_user,
             faculty_feedbacks=faculty_feedbacks,
             faculty_feedbacks_count=faculty_feedbacks_count,
-            faculty_overall_sentiment=faculty.sentiment,
+            faculty_overall_sentiment=faculty_overall_sentiment,
             pos=pos,
             neg=neg,
             neutral=neutral,
