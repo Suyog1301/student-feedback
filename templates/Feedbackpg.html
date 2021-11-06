@@ -25,8 +25,14 @@
                 <td>{{faculty.name}}</td>
                 <td>{{faculty.subject}}</td>
                 <td>{{faculty.semester}}</td>
-                <td><a class="btn btn-curve-outline" href='{{url_for("form", faculty_id=faculty.id)}}'>Give
-                        Feedback</a></td>
+                <td>
+                    {% if feedback.filter_by(faculty_id=faculty.id).count() >0 %}
+                    <p style="color: gray;font-size: 15px;">Feedback Received</p>
+                    {% else %}
+                    <a class="btn btn-curve-outline" href='{{url_for("form", faculty_id=faculty.id)}}'>Give
+                        Feedback</a>
+                    {% endif %}
+                </td>
             </tr>
 
             {%endfor%}
