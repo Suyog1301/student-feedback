@@ -293,8 +293,9 @@ def feedback(sem):
 
     student = Student.query.filter_by(user_id=current_user.id).first()
     faculties = Faculty.query.filter_by(semester=sem, branch=student.branch)
-
-    return render_template("Feedbackpg.html", faculties=faculties, form=form)
+    feedback = Feedback.query.filter_by(user_id=current_user.id)
+    
+    return render_template("Feedbackpg.html", faculties=faculties,feedback=feedback, form=form)
 
 
 @app.route("/feedback/add/<faculty_id>", methods=["GET", "POST"])
