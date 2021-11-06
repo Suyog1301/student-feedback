@@ -57,7 +57,7 @@
                         positive
                     </font>
                     {% elif faculty.sentiment == 0 %}
-                    <font style="color: yellow;">
+                    <font style="color: #F6BE00;">
                         neutral
                     </font>
                     {% endif %}
@@ -99,7 +99,7 @@
             {% elif feedback.sentiment > 0 %}
             <p class="sentiment" style="color: green; font-weight: bold;">positive</p>
             {% elif feedback.sentiment == 0 %}
-            <p class="sentiment" style="color: yellow; font-weight: bold;">neutral</p>
+            <p class="sentiment" style="color: #F6BE00; font-weight: bold;">neutral</p>
             {% endif %}
             <br>
             <p>{{feedback.punctuality}}.{{feedback.teaching_style}}.{{feedback.portion_completion}}.{{feedback.doubt_solving}}.{{feedback.teacher_preparedness}}.{{feedback.additional_comments}}.
@@ -141,7 +141,7 @@
 
         // Optional; add a title and set the width and height of the chart
         var options = {
-            'title': 'Sentiment Analysis', 'width': 500, 'height': 300, 'colors': ['#F6BE00', '#00FF00', 'FF0000'
+            'title': 'Sentiment Analysis', 'width': 500, 'height': 300, 'colors': ['#F6BE00', '#037d50', 'FF0000'
             ]
         };
 
