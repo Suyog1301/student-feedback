@@ -21,7 +21,7 @@
             <h1>
                 {% if faculty_overall_sentiment > 0 %}
                 positive
-                {% elif faculty_overall_sentiment < 0 %} negative {% elif faculty_overall_sentiment == 0 %} neutral {%
+                {% elif faculty_overall_sentiment < 0 %} negative {% elif faculty_overall_sentiment==0 %} neutral {%
                     endif %} </h1>
         </div>
     </div>
@@ -81,8 +81,8 @@
             <h1>
                 {% if faculty_overall_sentiment > 0 %}
                 positive
-                {% elif faculty_overall_sentiment < 0 %} negative {% elif faculty_overall_sentiment == 0 %} neutral {%
-                    endif %}  </h1>
+                {% elif faculty_overall_sentiment < 0 %} negative {% elif faculty_overall_sentiment==0 %} neutral {%
+                    endif %} </h1>
         </div>
     </div>
 </div>
@@ -130,9 +130,9 @@
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
             ['Sentiment', 'Score'],
-            ['Neutral', 8],
-            ['Positive', 2],
-            ['Negative', 4],
+            ['Neutral', '{{neutral}}'],
+            ['Positive', '{{neutral}}'],
+            ['Negative', '{{neutral}}'],
         ]);
 
         // Optional; add a title and set the width and height of the chart

@@ -28,8 +28,14 @@ migrate = Migrate()
 migrate.init_app(app, db)
 
 from models import Faculty, Feedback, Student, User
-from forms import (FacultyForm, FeedbackForm, LoginForm, RegisterForm,
-                   SelectionForm, StudentForm)
+from forms import (
+    FacultyForm,
+    FeedbackForm,
+    LoginForm,
+    RegisterForm,
+    SelectionForm,
+    StudentForm,
+)
 
 
 @login_manager.user_loader
@@ -183,6 +189,22 @@ def dashboard():
             faculty = Faculty.query.filter_by(user_id=user.id).first()
             faculties.append(faculty)
         feeds = Feedback.query.all()
+        pos = 0
+        neg = 0
+        neutral = 0
+
+        for f in feeds:
+            if f.sentiment > 0:
+                pos += 1
+            elif f.sentiment < 0:
+                neg += 1
+            elif f.sentiment == 0:
+                neutral += 1
+
+        pos = (pos / feedback_count) * 100
+        neg = (neg / feedback_count) * 100
+        neutral = (neutral / feedback_count) * 100
+
         faculty_sentiment = 0
         for feed in feeds:
             faculty_sentiment += feed.sentiment
@@ -196,23 +218,26 @@ def dashboard():
             student_count=student_count,
             feedback_count=feedback_count,
             faculty_overall_sentiment=faculty_overall_sentiment,
+            pos=pos,
+            neg=neg,
+            neutral=neutral,
         )
     elif current_user.role == 1:
         faculty = Faculty.query.filter_by(user_id=current_user.id).first()
-        faculty_feedbacks = Feedback.query.filter_by(
-            faculty_id=faculty.id).all()
+        faculty_feedbacks = Feedback.query.filter_by(faculty_id=faculty.id).all()
         faculty_feedbacks_count = len(faculty_feedbacks)
-#         faculty_overall_sentiment = float()
-#         faculty_sentiment = 0
-#         for feedback in faculty_feedbacks:
-#             faculty_sentiment += feedback.sentiment
 
-#         if faculty_feedbacks_count == 0:
-#             faculty_overall_sentiment = 0
-#         else:
-#             faculty_overall_sentiment = (
-#                 faculty_sentiment) / (faculty_feedbacks_count)
-#         print(faculty_overall_sentiment)
+        #         faculty_overall_sentiment = float()
+        #         faculty_sentiment = 0
+        #         for feedback in faculty_feedbacks:
+        #             faculty_sentiment += feedback.sentiment
+
+        #         if faculty_feedbacks_count == 0:
+        #             faculty_overall_sentiment = 0
+        #         else:
+        #             faculty_overall_sentiment = (
+        #                 faculty_sentiment) / (faculty_feedbacks_count)
+        #         print(faculty_overall_sentiment)
         return render_template(
             "dashboard.html",
             current_user=current_user,
