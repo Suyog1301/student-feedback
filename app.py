@@ -227,6 +227,18 @@ def dashboard():
         faculty_feedbacks = Feedback.query.filter_by(faculty_id=faculty.id).all()
         faculty_feedbacks_count = len(faculty_feedbacks)
 
+        pos = 0
+        neg = 0
+        neutral = 0
+
+        for f in faculty_feedbacks:
+            if f.sentiment > 0:
+                pos += 1
+            elif f.sentiment < 0:
+                neg += 1
+            elif f.sentiment == 0:
+                neutral += 1
+
         #         faculty_overall_sentiment = float()
         #         faculty_sentiment = 0
         #         for feedback in faculty_feedbacks:
@@ -244,6 +256,9 @@ def dashboard():
             faculty_feedbacks=faculty_feedbacks,
             faculty_feedbacks_count=faculty_feedbacks_count,
             faculty_overall_sentiment=faculty.sentiment,
+            pos=pos,
+            neg=neg,
+            neutral=neutral,
         )
     elif current_user.role == 2:
         selectform = SelectionForm()
