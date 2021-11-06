@@ -201,9 +201,9 @@ def dashboard():
             elif f.sentiment == 0:
                 neutral += 1
 
-        pos = (pos / feedback_count) * 100
-        neg = (neg / feedback_count) * 100
-        neutral = (neutral / feedback_count) * 100
+        # pos = (pos / feedback_count) * 100
+        # neg = (neg / feedback_count) * 100
+        # neutral = (neutral / feedback_count) * 100
 
         faculty_sentiment = 0
         for feed in feeds:
